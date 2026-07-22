@@ -32,7 +32,7 @@ If you find **VideoDeWatermark** useful, you can support the development:
 <br/><br/>
 
 </div>
-> *"When a watermark compromises the mission, we bring in the heavy artillery. Scrub the frame, extract the intel, and leave no trace behind."*
+When a watermark compromises the mission, we bring in the heavy artillery. Scrub the frame, extract the intel, and leave no trace behind.
 
 **VideoDeWatermark** is a highly tactical, open-source desktop application engineered to eradicate watermarks from your video files. Operating strictly offline and powered by Tauri + FFmpeg, it runs silently behind enemy lines on your local machine to guarantee maximum privacy. 
 
