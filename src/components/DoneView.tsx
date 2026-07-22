@@ -1,4 +1,4 @@
-import { openPath, revealItemInDir } from "@tauri-apps/plugin-opener";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
 
 type Props = {
   outputPath: string;
