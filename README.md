@@ -1,17 +1,20 @@
 <div align="center">
-  <img src="src/assets/logo.svg" alt="VideoDeWatermark Logo" width="150" />
-  
-  # 🎯 VideoDeWatermark
-  **Clean Video. Zero Trace. Absolute Stealth.**
-  
-  [![Tauri](https://img.shields.io/badge/Tauri-V2-FFC131?logo=tauri&logoColor=white&style=for-the-badge)](https://tauri.app)
-  [![Rust](https://img.shields.io/badge/Rust-Basecamp-000000?logo=rust&logoColor=white&style=for-the-badge)](https://rust-lang.org)
-  [![FFmpeg](https://img.shields.io/badge/FFmpeg-Artillery-5cb85c?logo=ffmpeg&logoColor=white&style=for-the-badge)](https://ffmpeg.org)
-  [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+
+<div style="border: 5px solid white; border-radius: 20px; display: inline-block; padding: 10px;">
+
+<img width="650" alt="Logo" src="https://github.com/user-attachments/assets/6bb51574-bcf9-4c90-bf1f-cc0d14886473" />
+
+
 </div>
 
-<br/>
+<br/><br/>
 
+[![Tauri](https://img.shields.io/badge/Tauri-V2-FFC131?logo=tauri&logoColor=white&style=for-the-badge)](https://tauri.app)
+[![Rust](https://img.shields.io/badge/Rust-Basecamp-000000?logo=rust&logoColor=white&style=for-the-badge)](https://rust-lang.org)
+[![FFmpeg](https://img.shields.io/badge/FFmpeg-Artillery-5cb85c?logo=ffmpeg&logoColor=white&style=for-the-badge)](https://ffmpeg.org)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+
+</div>
 
 <div align="center">
 
@@ -21,19 +24,14 @@ If you find **VideoDeWatermark** useful, you can support the development:
 
 <br/>
 
-<a href="upi://pay?pa=860405059@ybl&pn=Anurag">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-       alt="Buy Me a Coffee" 
-       width="180"/>
+<a href="https://github.com/sponsors/DeveloperAnuragsrivastav">
+  <img src="https://img.shields.io/badge/☕%20Sponsor%20Me-GitHub%20Sponsors-ea4aaa?style=for-the-badge&logo=github" 
+       alt="Sponsor DeveloperAnuragsrivastav" />
 </a>
 
 <br/><br/>
 
-<sub>Support development via UPI: <b>860405059@ybl</b></sub>
-
 </div>
-
----
 > *"When a watermark compromises the mission, we bring in the heavy artillery. Scrub the frame, extract the intel, and leave no trace behind."*
 
 **VideoDeWatermark** is a highly tactical, open-source desktop application engineered to eradicate watermarks from your video files. Operating strictly offline and powered by Tauri + FFmpeg, it runs silently behind enemy lines on your local machine to guarantee maximum privacy. 
