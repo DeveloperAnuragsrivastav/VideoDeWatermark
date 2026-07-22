@@ -19,6 +19,15 @@ fn ffmpeg_download_url() -> &'static str {
     }
 }
 
+/// Separate airdrop coordinates for ffprobe on macOS (evermeet serves them individually).
+fn ffprobe_download_url() -> Option<&'static str> {
+    if cfg!(target_os = "macos") {
+        Some("https://evermeet.cx/ffmpeg/getrelease/ffprobe/zip")
+    } else {
+        None // Windows & Linux bundles already include ffprobe
+    }
+}
+
 /// Weapon check: Fire a blank round (-version) to verify the binary is fully operational.
 async fn command_works(cmd: &str) -> bool {
     Command::new(cmd)
@@ -31,16 +40,52 @@ async fn command_works(cmd: &str) -> bool {
         .unwrap_or(false)
 }
 
-/// Search and rescue: Sweep the perimeter (PATH) first, then check the safe house for ffmpeg.
+/// Common hiding spots where ffmpeg might be stationed on the user's machine.
+/// macOS .app bundles don't inherit the shell PATH, so we sweep these manually.
+/// Windows users often dump ffmpeg in random folders, so we cover those too.
+fn common_bin_paths() -> Vec<PathBuf> {
+    let mut paths = vec![
+        PathBuf::from("/opt/homebrew/bin"),       // Apple Silicon Homebrew
+        PathBuf::from("/usr/local/bin"),           // Intel Homebrew / manual installs
+        PathBuf::from("/usr/bin"),                 // System default
+        PathBuf::from("/bin"),                     // Unlikely but cover our bases
+        PathBuf::from("/snap/bin"),                // Ubuntu Snap installs
+    ];
+
+    // Windows-specific hiding spots
+    if cfg!(target_os = "windows") {
+        if let Ok(program_files) = std::env::var("ProgramFiles") {
+            paths.push(PathBuf::from(format!("{}\\ffmpeg\\bin", program_files)));
+        }
+        if let Ok(local_app) = std::env::var("LOCALAPPDATA") {
+            paths.push(PathBuf::from(format!("{}\\ffmpeg\\bin", local_app)));
+        }
+        paths.push(PathBuf::from("C:\\ffmpeg\\bin"));
+    }
+
+    paths
+}
+
+/// Search and rescue: Sweep the perimeter (PATH) first, then check common
+/// hiding spots, and finally the safe house for ffmpeg.
 /// Returns the extraction coordinates if found, or MIA (None).
 pub async fn find_ffmpeg() -> Option<String> {
-    // 1. Check system PATH
+    // 1. Check system PATH (works in terminal, rarely in .app bundles)
     if command_works("ffmpeg").await {
         return Some("ffmpeg".to_string());
     }
 
-    // 2. Check our cached binary
-    let local = app_bin_dir().join(if cfg!(target_os = "windows") { "ffmpeg.exe" } else { "ffmpeg" });
+    // 2. Sweep known locations on the filesystem
+    let bin_name = if cfg!(target_os = "windows") { "ffmpeg.exe" } else { "ffmpeg" };
+    for dir in common_bin_paths() {
+        let candidate = dir.join(bin_name);
+        if candidate.exists() && command_works(candidate.to_str().unwrap_or("")).await {
+            return Some(candidate.to_string_lossy().to_string());
+        }
+    }
+
+    // 3. Check our cached binary in the safe house
+    let local = app_bin_dir().join(bin_name);
     if local.exists() && command_works(local.to_str().unwrap_or("")).await {
         return Some(local.to_string_lossy().to_string());
     }
@@ -48,13 +93,21 @@ pub async fn find_ffmpeg() -> Option<String> {
     None
 }
 
-/// Find ffprobe: check system PATH first, then our cached binary.
+/// Find ffprobe: same sweep pattern as ffmpeg — PATH, common paths, then cache.
 pub async fn find_ffprobe() -> Option<String> {
     if command_works("ffprobe").await {
         return Some("ffprobe".to_string());
     }
 
-    let local = app_bin_dir().join(if cfg!(target_os = "windows") { "ffprobe.exe" } else { "ffprobe" });
+    let bin_name = if cfg!(target_os = "windows") { "ffprobe.exe" } else { "ffprobe" };
+    for dir in common_bin_paths() {
+        let candidate = dir.join(bin_name);
+        if candidate.exists() && command_works(candidate.to_str().unwrap_or("")).await {
+            return Some(candidate.to_string_lossy().to_string());
+        }
+    }
+
+    let local = app_bin_dir().join(bin_name);
     if local.exists() && command_works(local.to_str().unwrap_or("")).await {
         return Some(local.to_string_lossy().to_string());
     }
@@ -100,6 +153,28 @@ where
     } else {
         // tar.xz for Linux
         extract_tar_xz(bytes, bin_dir.clone(), ffmpeg_name.to_string(), ffprobe_name.to_string()).await?;
+    }
+
+    // macOS special ops: evermeet.cx ships ffmpeg and ffprobe as separate payloads.
+    // We need a second airdrop specifically for ffprobe.
+    if let Some(ffprobe_url) = ffprobe_download_url() {
+        let probe_path = bin_dir.join(ffprobe_name);
+        if !probe_path.exists() {
+            on_status("Downloading ffprobe...");
+            let probe_resp = reqwest::get(ffprobe_url)
+                .await
+                .map_err(|e| format!("Failed to download ffprobe: {}", e))?;
+
+            if probe_resp.status().is_success() {
+                let probe_bytes = probe_resp
+                    .bytes()
+                    .await
+                    .map_err(|e| format!("Failed to read ffprobe download: {}", e))?;
+
+                on_status("Extracting ffprobe...");
+                extract_zip(probe_bytes, bin_dir.clone(), ffprobe_name.to_string(), ffprobe_name.to_string()).await?;
+            }
+        }
     }
 
     // Give the troops the clearance codes to execute on Unix
