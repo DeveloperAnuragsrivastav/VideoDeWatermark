@@ -12,6 +12,28 @@
 
 <br/>
 
+
+<div align="center">
+
+## ☕ Support the Mission
+
+If you find **VideoDeWatermark** useful, you can support the development:
+
+<br/>
+
+<a href="upi://pay?pa=860405059@ybl&pn=Anurag">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
+       alt="Buy Me a Coffee" 
+       width="180"/>
+</a>
+
+<br/><br/>
+
+<sub>Support development via UPI: <b>860405059@ybl</b></sub>
+
+</div>
+
+---
 > *"When a watermark compromises the mission, we bring in the heavy artillery. Scrub the frame, extract the intel, and leave no trace behind."*
 
 **VideoDeWatermark** is a highly tactical, open-source desktop application engineered to eradicate watermarks from your video files. Operating strictly offline and powered by Tauri + FFmpeg, it runs silently behind enemy lines on your local machine to guarantee maximum privacy. 
