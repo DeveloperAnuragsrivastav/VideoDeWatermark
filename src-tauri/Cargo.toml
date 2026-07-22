@@ -1,0 +1,31 @@
+[package]
+name = "videodewatermark"
+version = "0.1.0"
+description = "Remove watermarks from videos. Clean video, zero trace."
+authors = ["Anurag Srivastav"]
+edition = "2021"
+
+[lib]
+name = "videodewatermark_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+base64 = "0.22"
+dirs = "6"
+reqwest = { version = "0.12", features = ["stream"] }
+futures-util = "0.3"
+tokio-util = { version = "0.7", features = ["io"] }
+zip = "2"
+tar = "0.4"
+xz2 = "0.1"
+bytes = "1"
