@@ -18,6 +18,18 @@
 
 <div align="center">
 
+
+## 🎬 Live Demo
+
+<div align="center">
+<img width="700" alt="VideoDeWatermark Demo" src="https://github.com/user-attachments/assets/fbfb8f6d-8459-4f74-9131-cbc159e82227" />
+
+<br/>
+<sub><i>Drop, target, and eliminate the watermark — start to finish, no cuts.</i></sub>
+</div>
+
+---
+
 ## ☕ Support the Mission
 
 If you find **VideoDeWatermark** useful, you can support the development:
